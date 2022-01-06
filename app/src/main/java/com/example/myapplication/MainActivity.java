@@ -11,7 +11,10 @@ import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -85,16 +88,37 @@ public class MainActivity extends AppCompatActivity {
                     "MyNotification",
                     NotificationManager.IMPORTANCE_HIGH);
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Create an Intent for the activity you want to start
+            Intent resultIntent = new Intent(this, MainActivity.class);
+// Create the TaskStackBuilder and add the intent, which inflates the back stack
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntentWithParentStack(resultIntent);
+// Get the PendingIntent containing the entire back stack
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             getSystemService(NotificationManager.class).createNotificationChannel(channel);
             Notification.Builder notification = new Notification.Builder(this, CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(body)
                     .setSmallIcon(R.drawable.phone)
                     .setStyle(new Notification.BigTextStyle())
-                    .setAutoCancel(true);
+                    .setAutoCancel(true)
+                    .setContentIntent(resultPendingIntent);
             NotificationManagerCompat.from(this).notify(id, notification.build());
 
         }else{
+            ////////////////////////////////////////////////////////////////////////////////
+            // Create an Intent for the activity you want to start
+            Intent resultIntent = new Intent(this, MainActivity.class);
+// Create the TaskStackBuilder and add the intent, which inflates the back stack
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntentWithParentStack(resultIntent);
+// Get the PendingIntent containing the entire back stack
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            ///////////////////////////////////////////////////////////////////////////////
             String NOTIFICATION_CHANNEL_ID = "my_channel_id_01";
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                     .setContentTitle(title)
@@ -102,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     .setSmallIcon(R.drawable.phone)
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .bigText((CharSequence) body))
+                    .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true);
 
             NotificationManager notificationManager =
