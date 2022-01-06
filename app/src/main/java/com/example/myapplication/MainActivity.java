@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             Notification.Builder notification = new Notification.Builder(this, CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(body)
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setSmallIcon(R.drawable.phone)
+                    .setStyle(new Notification.BigTextStyle())
                     .setAutoCancel(true);
             NotificationManagerCompat.from(this).notify(id, notification.build());
 
@@ -98,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(body)
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setSmallIcon(R.drawable.phone)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText((CharSequence) body))
                     .setAutoCancel(true);
 
             NotificationManager notificationManager =
